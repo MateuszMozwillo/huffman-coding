@@ -44,11 +44,6 @@ struct TreeNode {
     }
 };
 
-ostream& operator<<(ostream& os, const TreeNode& treeNode) {
-    os << "propabilty: " << treeNode.propability << "\ncode: " << treeNode.code;
-    return os;
-}
-
 struct CompareTreeNodes {
     bool operator()(const TreeNode* a, const TreeNode* b) const {
         return a->propability > b->propability;
