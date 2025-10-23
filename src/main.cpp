@@ -4,9 +4,7 @@
 using namespace std;
 
 struct TreeNode {
-
     double propability;
-
     string code;
 
     TreeNode *left;
@@ -17,6 +15,15 @@ struct TreeNode {
         this->left = l;
         this->right = r;
         this->code = "";
+    }
+
+    ~TreeNode() {
+        if (this->left != nullptr) {
+            delete this->left;
+        }
+        if (this->right != nullptr) {
+            delete this->right;
+        }
     }
 
     void code_node(string code_to_append = "") {
@@ -70,5 +77,7 @@ int main() {
     TreeNode* final = q.top();
     final->code_node();
     final->print_codes();
+
+    delete final;
     return 0;
 }
