@@ -26,25 +26,25 @@ struct TreeNode {
         }
     }
 
-    void code_node(string code_to_append = "") {
-        this->code = code_to_append;
+    void encode_nodes(string current_code = "") {
+        this->code = current_code;
         if (this->left != nullptr) {
-            this->left->code_node(this->code + "0");
+            this->left->encode_nodes(this->code + "0");
         }
         if (this->right != nullptr) {
-            this->right->code_node(this->code + "1");
+            this->right->encode_nodes(this->code + "1");
         }
     }
 
-    void print_codes() {
+    void print() {
         if (this->left == nullptr && this->right == nullptr) {
             cout << "\npropability: " << this->propability << "\ncode: " << this->code << "\n";
         }
         if (this->left != nullptr) {
-            this->left->print_codes();
+            this->left->print();
         }
         if (this->right != nullptr) {
-            this->right->print_codes();
+            this->right->print();
         }
     }
 };
@@ -75,9 +75,10 @@ int main() {
     }
 
     TreeNode* final = q.top();
-    final->code_node();
-    final->print_codes();
+    final->encode_nodes();
+    final->print();
 
     delete final;
+
     return 0;
 }
