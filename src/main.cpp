@@ -152,12 +152,14 @@ int main(int argc, const char* argv[]) {
     unordered_map<string, string> codes;
     vector<TreeNode*> leafs;
     final->extract_leafs(leafs);
-    delete final;
     for (auto leaf : leafs) {
         codes[leaf->coded_word] = leaf->code;
     }
+    delete final;
 
-
+    for (auto [key, val]: codes) {
+        cout << key << ": " << val << endl;
+    }
 
     return 0;
 }
