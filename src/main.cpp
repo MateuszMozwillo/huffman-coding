@@ -1,4 +1,4 @@
-#include <complex>
+#include <cstddef>
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
@@ -6,9 +6,9 @@
 #include <iostream>
 #include <queue>
 #include <sstream>
-#include <type_traits>
 #include <unordered_map>
 #include <vector>
+#include <bitset>
 
 using namespace std;
 
@@ -156,22 +156,47 @@ int main(int argc, const char* argv[]) {
     unordered_map<string, string> codes;
     vector<TreeNode*> leafs;
     final->extract_leafs(leafs);
-    for (auto leaf : leafs) {
+    for (auto const& leaf : leafs) {
         codes[leaf->coded_word] = leaf->code;
     }
     delete final;
 
-    for (auto [key, val]: codes) {
-        cout << key << ": " << val << endl;
+    string map_as_string = "";
+    for (auto const& [key, val]: codes) {
+        map_as_string += key + ":" + val + '\n';
     }
 
     string coded = "";
 
-    for (auto token : tokens) {
+    for (auto const& token : tokens) {
         coded += codes[token];
     }
 
-    cout << coded;
+    string coded_as_bytes  = "";
+
+    for (size_t i = 0; i < coded.size(); i+=8) {
+        string byte = coded.substr(i, 8);
+        if (byte.size() < 8) {
+            byte.append(8 - byte.length(), '0');
+        }
+        bitset<8> bits(byte);
+        unsigned char byte_to_write = static_cast<unsigned char>(bits.to_ulong());
+        coded_as_bytes.push_back(byte_to_write);
+    }
+
+    ofstream output("coded.out");
+    if (!output) {
+            std::cerr << "Error: Could not open file for writing!" << std::endl;
+            return 1;
+    }
+    output << map_as_string.size() << '\n' <<map_as_string << '\n';
+    output.write(reinterpret_cast<const char*>(coded_as_bytes.data()),coded_as_bytes.size());
+    // output.write(reinterpret_cast<const char*>(coded_as_bytes.data()), coded_as_bytes.size());
+    output << coded_as_bytes;
+    output.close();
+
+
+    // cout << coded_as_bytes;
 
     return 0;
 }
