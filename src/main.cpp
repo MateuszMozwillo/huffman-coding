@@ -129,6 +129,10 @@ int main(int argc, const char* argv[]) {
         if (strcmp(argv[1], "-c")) {
 
         }
+        //uncompress
+        else if (strcmp(argv[1], "-u")) {
+
+        }
     }
 
     priority_queue<TreeNode*, vector<TreeNode*>, CompareTreeNodes> q;
@@ -160,6 +164,14 @@ int main(int argc, const char* argv[]) {
     for (auto [key, val]: codes) {
         cout << key << ": " << val << endl;
     }
+
+    string coded = "";
+
+    for (auto token : tokens) {
+        coded += codes[token];
+    }
+
+    cout << coded;
 
     return 0;
 }
