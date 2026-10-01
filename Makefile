@@ -1,7 +1,24 @@
-SRC = $(wildcard src/*.cpp)
+CXX      = g++
+CXXFLAGS = -std=c++17 -Wall -Wextra -O2
 
-run: build
-	./main
+LIB_SRC = src/huffman.cpp
+HEADERS = src/huffman.hpp
 
-build:
-	g++ -Wall $(SRC) -o main
+.PHONY: build run bench clean
+
+build: main
+
+main: src/main.cpp $(LIB_SRC) $(HEADERS)
+	$(CXX) $(CXXFLAGS) src/main.cpp $(LIB_SRC) -o main
+
+benchmark: bench/benchmark.cpp $(LIB_SRC) $(HEADERS)
+	$(CXX) $(CXXFLAGS) bench/benchmark.cpp $(LIB_SRC) -o benchmark
+
+run: main
+	./main -c test.txt coded.out
+
+bench: benchmark
+	./benchmark
+
+clean:
+	rm -f main benchmark coded.out
